@@ -1,24 +1,39 @@
-import healthStatus from './healthStatus';
+import sort from './healthStatus';
 
-describe('healthStatus', () => {
-  test('should return "healthy" for health > 50', () => {
-    const result = healthStatus({ name: 'Маг', health: 90 });
-    expect(result).toBe('healthy');
-  });
+test('sort array and obj heroes', () => {
+  const heroes = [
+    { name: 'мечник', health: 10 },
+    { name: 'маг', health: 100 },
+    { name: 'лучник', health: 80 },
+  ];
 
-  test('should return "wounded" for health between 15 and 50 inclusive', () => {
-    const result1 = healthStatus({ name: 'Маг', health: 50 });
-    expect(result1).toBe('wounded');
+  const sortHeroes = sort(heroes);
 
-    const result2 = healthStatus({ name: 'Маг', health: 30 });
-    expect(result2).toBe('wounded');
+  const expectedSortedHeroes = [
+    { name: 'маг', health: 100 },
+    { name: 'лучник', health: 80 },
+    { name: 'мечник', health: 10 },
+  ];
 
-    const result3 = healthStatus({ name: 'Маг', health: 15 });
-    expect(result3).toBe('wounded');
-  });
+  expect(sortHeroes).toEqual(expectedSortedHeroes);
+});
 
-  test('should return "critical" for health < 15', () => {
-    const result = healthStatus({ name: 'Маг', health: 10 });
-    expect(result).toBe('critical');
-  });
+test('does not sort original array', () => {
+  const heroes = [
+    { name: 'мечник', health: 10 },
+    { name: 'маг', health: 100 },
+    { name: 'лучник', health: 80 },
+  ];
+
+  const sortHeroes = sort(heroes);
+
+  expect(sortHeroes).not.toBe(heroes);
+});
+
+test('zero array heroes', () => {
+  const heroes = [];
+
+  const sortHeroes = sort(heroes);
+
+  expect(sortHeroes).toEqual([]);
 });
